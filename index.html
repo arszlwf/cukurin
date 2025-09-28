@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualoka - Analisis Gaya Rambut AI Tercerdas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        :root {
+            --primary: #5b21b6; /* Ungu Kaya */
+            --primary-light: #8b5cf6;
+            --text-dark: #1f2937;
+            --text-muted: #4b5563;
+            --bg-light: #f9fafb; /* Latar belakang sangat lembut */
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        /* CTA Button: Clean & Lifted */
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 14px 36px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(91, 33, 172, 0.3); /* Shadow yang terangkat dan lembut */
+        }
+        .cta-button:hover {
+            background-color: #4c1d95;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(91, 33, 172, 0.4);
+        }
+        /* Navbar Glass Effect */
+        .navbar-glass {
+            background-color: rgba(255, 255, 255, 0.9); /* Transparan */
+            backdrop-filter: blur(10px); /* Efek Kaca Buram */
+            -webkit-backdrop-filter: blur(10px); 
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Shadow sangat tipis */
+        }
+        /* Feature Card Style: Minimalis */
+        .feature-card, .testimonial-card {
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-light);
+        }
+        /* Header Navigation */
+        #nav-menu {
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+            transform: translateX(100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #nav-menu.open {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+        /* Style Garis Hamburger */
+        .line {
+            transition: all 0.3s ease;
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-dark);
+            margin: 5px 0;
+        }
+        .hamburger.active .line:nth-child(2) { opacity: 0; }
+        .hamburger.active .line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active .line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* Hero Image */
+        #hero-img {
+            height: auto;
+            border-radius: 12px;
+            box-shadow: none; 
+        }
+        /* TESTIMONIAL SWIPER STYLES */
+        .swiper-wrapper {
+            display: flex;
+            overflow-x: scroll; /* Agar bisa digeser horizontal */
+            scroll-snap-type: x mandatory; /* Memastikan snap ke setiap card */
+            -webkit-overflow-scrolling: touch; /* Perbaikan untuk iOS */
+            padding-bottom: 20px; /* Ruang untuk scrollbar/shadow */
+        }
+        .testimonial-card-item {
+            flex: 0 0 320px; /* Lebar setiap card tetap */
+            margin-right: 20px; /* Jarak antar card */
+            scroll-snap-align: start;
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+<header class="navbar-glass sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="#" class="text-2xl font-extrabold text-gray-800 tracking-tight">
+            Visualoka<span style="color:var(--primary);">AI</span>
+        </a>
+        
+        <nav class="hidden md:flex space-x-8 font-semibold text-gray-600 text-base">
+            <a href="#keunggulan" class="hover:text-gray-900 transition">Keunggulan</a>
+            <a href="#testimoni" class="hover:text-gray-900 transition">Testimoni</a>
+            <a href="#kontak" class="hover:text-gray-900 transition">Kontak</a>
+            <a href="/dashboard" class="cta-button py-2 px-6 ml-4">Coba Sekarang</a>
+        </nav>
+        
+        <button id="hamburger-btn" class="hamburger md:hidden z-50 p-2">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </button>
+    </div>
+</header>
+
+<div id="nav-menu" class="fixed top-0 right-0 h-full w-full bg-white md:hidden shadow-xl z-40 p-8 pt-20 flex flex-col space-y-8 font-extrabold text-2xl text-gray-800">
+    <a href="#keunggulan" class="hover:text-gray-600 transition" onclick="closeMenu()">Keunggulan</a>
+    <a href="#testimoni" class="hover:text-gray-600 transition" onclick="closeMenu()">Testimoni</a>
+    <a href="#kontak" class="hover:text-gray-600 transition" onclick="closeMenu()">Kontak</a>
+    <div class="pt-8">
+        <a href="/dashboard" class="cta-button py-3 px-6 text-xl" onclick="closeMenu();">Coba Sekarang</a>
+    </div>
+</div>
+
+
+<main>
+    
+    <section class="min-h-screen flex items-center max-w-6xl mx-auto px-4 py-20 text-center md:text-left">
+        <div class="md:grid md:grid-cols-2 md:gap-16 items-center w-full">
+            <div class="order-2 md:order-1 mt-12 md:mt-0">
+                <p class="text-lg font-semibold text-purple-600 mb-3">#SolusiGayaAI</p>
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight text-gray-900">
+                    Gaya Rambut yang <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-indigo-600">Pasti Cocok</span> untuk Anda.
+                </h1>
+                
+                <div class="mt-8">
+                    <a href="/dashboard" class="cta-button text-xl">
+                        <i class="fas fa-camera mr-2"></i> Mulai Analisis Gratis
+                    </a>
+                </div>
+                <p class="mt-5 text-sm text-gray-500">
+                    Gratis 5x analisis. Upgrade Premium untuk akses tak terbatas.
+                </p>
+            </div>
+            
+            <div class="order-1 md:order-2 flex justify-center pt-8 md:pt-0">
+                <img id="hero-img" src="path/img/landing.png" alt="Ilustrasi Orang Foto dengan Deteksi Wajah AI" class="w-full max-w-md">
+            </div>
+        </div>
+    </section>
+    
+    <section id="keunggulan" class="min-h-screen flex items-center py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4 w-full">
+            <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-16">
+                Kekuatan <span class="text-purple-600">Visualoka</span>
+            </h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                
+                <div class="p-8 bg-white rounded-xl feature-card text-center shadow-sm">
+                    <i class="fas fa-magic fa-3x text-indigo-500 mb-5 p-3 rounded-full bg-indigo-50"></i>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Analisis Morfologi Akurat</h3>
+                    <p class="text-gray-600">Kami tidak menebak. AI menganalisis bentuk rahang, dahi, dan fitur wajah secara ilmiah untuk presisi rekomendasi maksimal.</p>
+                </div>
+                
+                <div class="p-8 bg-white rounded-xl feature-card text-center shadow-sm">
+                    <i class="fas fa-search-location fa-3x text-purple-500 mb-5 p-3 rounded-full bg-purple-50"></i>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Identifikasi Gaya Cepat</h3>
+                    <p class="text-gray-600">Unggah foto model mana pun, dan sistem kami langsung menemukan nama model rambutnya untuk memudahkan komunikasi dengan barber Anda.</p>
+                </div>
+                
+                <div class="p-8 bg-white rounded-xl feature-card text-center shadow-sm">
+                    <i class="fas fa-shield-alt fa-3x text-green-500 mb-5 p-3 rounded-full bg-green-50"></i>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Privasi dan Keamanan</h3>
+                    <p class="text-gray-600">Foto Anda hanya diproses sesaat oleh AI dan tidak disimpan. Akses mudah, tanpa perlu install aplikasi tambahan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimoni" class="min-h-screen flex items-center py-16 bg-gradient-to-r from-indigo-50 to-white">
+        <div class="w-full">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-16">
+                    Apa Kata <span class="text-indigo-600">Pengguna Kami?</span>
+                </h2>
+                <p class="text-center text-gray-600 mb-8">
+                    <i class="fas fa-arrow-right text-sm mr-2"></i> Geser ke samping untuk melihat lebih banyak!
+                </p>
+            </div>
+
+            <div class="swiper-wrapper max-w-full overflow-x-auto px-4 md:px-0 md:justify-center mx-auto" style="width: 100%;">
+
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-indigo-400 mb-3"></i>
+                    <p class="text-gray-700">"Gila sih, Visualoka ini beneran AI yang sat set! Rekomendasi gayanya nggak ngadi-ngadi, langsung match sama muka. Auto kece tanpa drama! Worth it banget!"</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-indigo-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Rizky P.</p>
+                            <p class="text-sm text-gray-500">Konten Kreator, Jakarta</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-purple-400 mb-3"></i>
+                    <p class="text-gray-700">"Fitur Style Finder-nya MVP! Nggak perlu lagi bingung jelasin model rambut ke barber. Tinggal tunjukkin nama dari Visualoka, langsung gas. Life saver!"</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-purple-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Bima K.</p>
+                            <p class="text-sm text-gray-500">Mahasiswa, Bandung</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-indigo-400 mb-3"></i>
+                    <p class="text-gray-700">"Awalnya ragu, tapi ternyata AI-nya powerful banget. Cocok buat yang mau glow up tapi nggak mau ambil risiko. Anti gagal club!"</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-green-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Fahmi A.</p>
+                            <p class="text-sm text-gray-500">Startup Founder, Yogyakarta</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-purple-400 mb-3"></i>
+                    <p class="text-gray-700">"UI/UX-nya smooth banget, nggak bikin pusing. Analisisnya cepat dan on point. Buat gue yang mager mikir, ini sih solusi banget. Spill the best style!"</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-red-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Dimas S.</p>
+                            <p class="text-sm text-gray-500">Desainer Grafis, Surabaya</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-indigo-400 mb-3"></i>
+                    <p class="text-gray-700">"Paling suka sama jaminan privasinya, foto nggak disimpan. Jadi tenang pakai toolsnya. Keren, Visualoka udah mikirin keamanan pengguna!"</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-yellow-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Arief R.</p>
+                            <p class="text-sm text-gray-500">Gamer Profesional, Malang</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-purple-400 mb-3"></i>
+                    <p class="text-gray-700">"Webnya ringan banget, dibuka di HP nggak pake nge-lag. Fitur analisis mukanya juga cepet, nggak sampai semenit udah keluar hasilnya. Jempol deh buat optimasinya!"</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-gray-300 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Aditya N.</p>
+                            <p class="text-sm text-gray-500">Freelancer IT, Depok</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-indigo-400 mb-3"></i>
+                    <p class="text-gray-700">"Interface aplikasinya *user friendly* parah. Gue yang gaptek aja langsung ngerti cara pakai. Tinggal upload, klik, beres. Desainnya juga clean, suka!"</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-pink-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Yusuf H.</p>
+                            <p class="text-sm text-gray-500">Karyawan Swasta, Bekasi</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-purple-400 mb-3"></i>
+                    <p class="text-gray-700">"Hasil rekomendasi Visualoka bener-bener akurat. Dulu nyoba-nyoba gaya rambut selalu fail, sekarang berani potong karena ada panduannya. AI-nya emang nggak boong."</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-teal-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Yoga S.</p>
+                            <p class="text-sm text-gray-500">Seniman, Bali</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-indigo-400 mb-3"></i>
+                    <p class="text-gray-700">"Sistemnya stabil, mau diakses pagi, siang, atau malam, nggak pernah down. Servisnya mantap, apalagi ada fitur buat nemuin nama model rambut dari foto, kepake banget di barbershop."</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-orange-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Gilang T.</p>
+                            <p class="text-sm text-gray-500">Wirausaha, Medan</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 testimonial-card-item">
+                    <i class="fas fa-quote-left text-2xl text-purple-400 mb-3"></i>
+                    <p class="text-gray-700">"Gue udah coba banyak aplikasi serupa, tapi Visualoka ini yang paling oke. Hasilnya itu loh, berasa dipotong sama profesional. Bikin ganti gaya rambut jadi lebih seru."</p>
+                    <div class="mt-5 pt-4 border-t border-gray-200 flex items-center">
+                        <span class="inline-block h-10 w-10 bg-cyan-200 rounded-full mr-3"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Raka M.</p>
+                            <p class="text-sm text-gray-500">Pekerja Kreatif, Semarang</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            </div>
+    </section>
+
+    <section class="py-20 text-center">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900">
+                Waktunya Tampil Lebih Baik.
+            </h2>
+            <p class="mt-5 text-xl text-gray-600">
+                Bergabunglah dengan ribuan pengguna yang telah menemukan gaya rambut ideal mereka bersama Visualoka.
+            </p>
+            <div class="mt-10">
+                <a href="/sarancukur/dashboard" class="cta-button text-xl">
+                    Mulai Analisis Gratis <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer id="kontak" class="bg-white text-gray-800 py-12 border-t border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-10">
+        
+        <div class="col-span-2 md:col-span-2">
+            <a href="#" class="text-3xl font-extrabold text-gray-800 mb-4 inline-block">
+                Visualoka<span style="color:var(--primary);"> AI</span>
+            </a>
+            <p class="text-sm text-gray-500 mt-2 max-w-xs">
+                Solusi gaya profesional yang didukung oleh AI.
+            </p>
+            <div class="flex space-x-4 mt-6">
+                <a href="#" class="text-gray-400 hover:text-gray-600 transition"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-gray-600 transition"><i class="fab fa-twitter fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-gray-600 transition"><i class="fab fa-linkedin fa-lg"></i></a>
+            </div>
+        </div>
+        
+        <div>
+            <h4 class="text-lg font-bold mb-4 text-gray-900">Produk</h4>
+            <ul class="space-y-3 text-sm text-gray-600">
+                <li><a href="#keunggulan" class="hover:text-gray-900 transition">Fitur Utama</a></li>
+                <li><a href="/dashboard" class="hover:text-gray-900 transition">Coba Aplikasi</a></li>
+                <li><a href="#" class="hover:text-gray-900 transition">Harga Premium</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h4 class="text-lg font-bold mb-4 text-gray-900">Perusahaan</h4>
+            <ul class="space-y-3 text-sm text-gray-600">
+                <li><a href="#kontak" class="hover:text-gray-900 transition">Kontak Kami</a></li>
+                <li><a href="#" class="hover:text-gray-900 transition">Karir (Coming Soon)</a></li>
+                <li><a href="#" class="hover:text-gray-900 transition">FAQ</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h4 class="text-lg font-bold mb-4 text-gray-900">Legal</h4>
+            <ul class="space-y-3 text-sm text-gray-600">
+                <li><a href="#" onclick="alert('Silakan cek S&K di aplikasi utama.')" class="hover:text-gray-900 transition">Syarat & Ketentuan</a></li>
+                <li><a href="#" class="hover:text-gray-900 transition">Kebijakan Privasi</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-gray-200 text-center text-xs text-gray-500">
+        &copy; 2025 Visualoka. All rights reserved. Dibuat dengan <i class="fas fa-heart text-red-500"></i> dan AI.
+    </div>
+</footer>
+
+<script>
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navMenu = document.getElementById('nav-menu');
+
+    // Fungsi untuk membuka/menutup menu
+    function toggleMenu() {
+        const isOpen = navMenu.classList.toggle('open');
+        hamburgerBtn.classList.toggle('active', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    // Fungsi menutup menu (dipanggil oleh link di menu mobile)
+    function closeMenu() {
+        if (navMenu.classList.contains('open')) {
+            toggleMenu();
+        }
+    }
+
+    // Toggle menu saat tombol hamburger diklik
+    hamburgerBtn.addEventListener('click', toggleMenu);
+</script>
+
+</body>
+</html>
